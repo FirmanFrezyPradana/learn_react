@@ -1,8 +1,14 @@
 import InputForm from "../Elements/Input";
-import Button from"../Elements/Button";
+import Button from "../Elements/Button";
 export const FormLogin = () => {
+  const HandleLogin = (event) => {
+    event.preventDefault();
+    localStorage.setItem("email", event.target.email.value);
+    localStorage.setItem("password", event.target.password.value);
+    window.location.href = "/producs";
+  };
   return (
-    <form action="">
+    <form onSubmit={HandleLogin}>
       <InputForm
         name="email"
         title="Email"
@@ -15,7 +21,9 @@ export const FormLogin = () => {
         placeholder="*****"
         type="password"
       />
-      <Button classname="bg-green-500 w-full">Login</Button>
+      <Button classname="bg-green-500 w-full" type="submit">
+        Login
+      </Button>
     </form>
   );
 };
