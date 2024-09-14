@@ -1,0 +1,13 @@
+import React from "react";
+const Button = (props) => {
+  const { children, classname = "bg-black" } = props;
+  return (
+    <button
+      className={`h-8 font-bold rounded-md ${classname} text-white`}
+      type="submit"
+    >
+      {children}
+    </button>
+  );
+};
+export default Button;
