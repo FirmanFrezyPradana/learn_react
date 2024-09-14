@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { CardProduct } from "../components/Fragments/CardProduct";
 import Button from "../components/Elements/Button";
+import Couter from "./Couter";
 const products = [
   {
     id: 1,
@@ -50,6 +51,7 @@ function Producs() {
           </CardProduct>
         ))}
       </div>
+      <Couter></Couter>
     </Fragment>
   );
 }
