@@ -2,6 +2,7 @@
 import React, { Fragment, useState } from "react";
 import { CardProduct } from "../components/Fragments/CardProduct";
 import Button from "../components/Elements/Button";
+import Counter from "./Couter";
 const products = [
   {
     id: 1,
@@ -31,16 +32,6 @@ const products = [
     descripsi:
       " Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, nobis....",
     price: 6000000,
-    rating: 4,
-  },
-  {
-    id: 4,
-    image: "/images/product-1.jpg",
-    alt: "product image",
-    title: "Apple Watch Series 5",
-    descripsi:
-      " Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, nobis....",
-    price: 5000000,
     rating: 4,
   },
 ];
@@ -134,6 +125,9 @@ function Producs() {
             </tbody>
           </table>
         </div>
+      </div>
+      <div className=" flex justify-center">
+        <Counter></Counter>
       </div>
     </Fragment>
   );

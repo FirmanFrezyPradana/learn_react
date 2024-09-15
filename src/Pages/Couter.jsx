@@ -10,6 +10,18 @@ export default class Couter extends Component {
       count: 0,
     };
   }
+  // componen did mount hanya bisa digunakan di statefull componen atau classs componen
+  // apa yang ada di dalam constructor nilai awalnya akan di timpa oleh componen DidMout
+  componentDidMount() {
+    this.setState({ count: 10 });
+  }
+  componentDidUpdate(prevProps, prevState) {
+    // harus ada kondisi pada componen ini
+    // setelah konsisi terpenuhi maka nilai akan kembali ke nilai awal
+    if (this.state.count === 11) {
+      this.setState({ count: 5 });
+    }
+  }
   render() {
     return (
       <div className=" flex items-start">
