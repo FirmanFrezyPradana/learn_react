@@ -1,5 +1,5 @@
 import React, { Children } from "react";
-
+import Button from "../Elements/Button";
 const Header = (props) => {
   const { image, alt } = props;
   return <img className="rounded-t-lg w-64" src={image} alt={alt} />;
@@ -18,7 +18,8 @@ const Body = (props) => {
   );
 };
 const Footer = (props) => {
-  const { price, rating } = props;
+  const { price, rating, handleAddCard, id } = props;
+  // console.log(id);
   const stars = Array.from({ length: 5 }, (_, index) => {
     return index < rating ? (
       <svg
@@ -46,24 +47,24 @@ const Footer = (props) => {
   });
   return (
     <div className="px-5 pb-2">
-      <div className="flex items-center mt-2.5 mb-5">
+      <div className="flex items-center mt-2.5 mb-5 jus">
         <div className="flex items-center space-x-1 rtl:space-x-reverse">
           {stars}
         </div>
-        <span className="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3">
+        <span className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-800 ms-3">
           {rating}.0
         </span>
       </div>
       <div className="flex items-center justify-between">
-        <span className="text-3xl font-bold text-gray-900 dark:text-white">
-          ${price}
+        <span className="text-xl font-bold text-gray-900 dark:text-white">
+          Rp. {price.toLocaleString("id-ID")}
         </span>
-        <a
-          href="#"
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        <Button
+          onClick={() => handleAddCard(id)}
+          classname="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300  text-sm px-5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
         >
-          Add to cart
-        </a>
+          Cart
+        </Button>
       </div>
     </div>
   );
