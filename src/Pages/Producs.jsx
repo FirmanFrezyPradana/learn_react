@@ -1,8 +1,9 @@
 // langkah pertama import useState
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { CardProduct } from "../components/Fragments/CardProduct";
 import Button from "../components/Elements/Button";
 import Counter from "./Couter";
+import { json } from "react-router-dom";
 const products = [
   {
     id: 1,
@@ -37,20 +38,45 @@ const products = [
 ];
 const email = localStorage.getItem("email");
 function Producs() {
+  // useEffect digunakan untuk memanipulasi komponen , funcsionalitasnya dapat digunakan seperti menggunakan componendidmout atau componendidupdate
   // membuat state
-  const [cart, setCart] = useState([
-    {
-      id: 1,
-      qty: 1,
-    },
-  ]);
+  const [cart, setCart] = useState([]);
+  // membuat state total
+  const [totalPrice, setTotalPrice] = useState(0);
+  useEffect(() => {
+    setCart(JSON.parse(localStorage.getItem("cart")) || []);
+    // [] disebut dependency list, digunakan untuk componen yang akan update. atau memantau perubahan
+    // apabila kita menggunakan statefull componne maka harus mendefinisikan componen didmouth
+    // apabila menggunakan useEffect sudah include penggunakan comopnendidmouth
+  }, []);
+
+  // contoh penggunaan componenDidupdate pada useeffect
+  useEffect(() => {
+    if (cart.length > 0) {
+      const sum = cart.reduce(
+        (acc, item) => {
+          const product = products.find((product) => product.id === item.id);
+          console.log(product);
+          return acc + product.price * item.qty;
+        },
+        // dimulai dari nilai berapa
+        0
+      );
+      // set nilai dari setTottalPrice
+      setTotalPrice(sum);
+      // menyimpan ke localStorage
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }else{
+      
+    }
+  }, [cart]);
+
   const handleLogout = () => {
     localStorage.removeItem("email");
     localStorage.removeItem("password");
     window.location.href = "/";
   };
   const handleAddCard = (id) => {
-    console.log(id);
     if (cart.find((item) => item.id === id)) {
       setCart(
         cart.map((item) =>
@@ -123,12 +149,21 @@ function Producs() {
                 );
               })}
             </tbody>
+            <tr>
+              <th colSpan={3} className="font-bold">
+                Total price
+              </th>
+              <th className="font-bold">
+                Rp
+                {totalPrice.toLocaleString("id-ID")}
+              </th>
+            </tr>
           </table>
         </div>
       </div>
-      <div className=" flex justify-center">
+      {/* <div className=" flex justify-center">
         <Counter></Counter>
-      </div>
+      </div> */}
     </Fragment>
   );
 }
