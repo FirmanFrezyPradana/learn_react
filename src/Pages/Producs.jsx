@@ -2,46 +2,44 @@
 import React, { Fragment, useState, useEffect, useRef } from "react";
 import { CardProduct } from "../components/Fragments/CardProduct";
 import Button from "../components/Elements/Button";
-import Counter from "./Couter";
-import { json } from "react-router-dom";
-const products = [
-  {
-    id: 1,
-    image: "/images/product-1.jpg",
-    alt: "product image",
-    title: "Apple Watch Series 7",
-    descripsi:
-      " Lorem ipsum dolor sit amet consectetur adipisicing elit. Odi perferendis beatae...",
-    price: 3000000,
-    rating: 5,
-  },
-  {
-    id: 2,
-    image: "/images/product-1.jpg",
-    alt: "product image",
-    title: "Apple Watch Series 5",
-    descripsi:
-      " Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, nobis....",
-    price: 5000000,
-    rating: 4,
-  },
-  {
-    id: 3,
-    image: "/images/product-1.jpg",
-    alt: "product image",
-    title: "Apple Watch Series 4",
-    descripsi:
-      " Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, nobis....",
-    price: 6000000,
-    rating: 4,
-  },
-];
+// import Counter from "./Couter";
+// import { json } from "react-router-dom";
+import getProducts from "../services/product.services";
+// const products = [
+//   {
+//     id: 1,
+//     image: "/images/product-1.jpg",
+//     alt: "product image",
+//     title: "Apple Watch Series 7",
+//     descripsi:
+//       " Lorem ipsum dolor sit amet consectetur adipisicing elit. Odi perferendis beatae...",
+//     price: 3000000,
+//     rating: 5,
+//   },
+//   {
+//     id: 2,
+//     image: "/images/product-1.jpg",
+//     alt: "product image",
+//     title: "Apple Watch Series 5",
+//     descripsi:
+//       " Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, nobis....",
+//     price: 5000000,
+//     rating: 4,
+//   },
+//   {
+//     id: 3,
+//     image: "/images/product-1.jpg",
+//     alt: "product image",
+//     title: "Apple Watch Series 4",
+//     descripsi:
+//       " Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, nobis....",
+//     price: 6000000,
+//     rating: 4,
+//   },
+// ];
 const email = localStorage.getItem("email");
 function Producs() {
-  // useReff Hook yang memiliki berbagai fungsi,
-  // fungsinya sama seperti useState namun memiliki beberapa fungsi lain
-  // 1. apabila meggunakan useReff tidak akan melakukan pre render komponen
-
+  const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   useEffect(() => {
@@ -49,7 +47,7 @@ function Producs() {
   }, []);
 
   useEffect(() => {
-    if (cart.length > 0) {
+    if (products.length > 0 && cart.length > 0) {
       const sum = cart.reduce((acc, item) => {
         const product = products.find((product) => product.id === item.id);
         return acc + product.price * item.qty;
@@ -58,8 +56,13 @@ function Producs() {
       localStorage.setItem("cart", JSON.stringify(cart));
     } else {
     }
-  }, [cart]);
+  }, [cart, products]);
 
+  useEffect(() => {
+    getProducts((data) => {
+      setProducts(data);
+    });
+  }, []);
   const handleLogout = () => {
     localStorage.removeItem("email");
     localStorage.removeItem("password");
@@ -110,21 +113,22 @@ function Producs() {
       <div className="flex justify-center py-3">
         <div className="w-3/4">
           <div className="grid grid-cols-3 gap-5">
-            {products.map((product) => (
-              <CardProduct key={product.id}>
-                <CardProduct.Header image={product.image} alt={product.alt} />
-                <CardProduct.Body title={product.title}>
-                  {product.descripsi}
-                </CardProduct.Body>
-                <CardProduct.Footer
-                  price={product.price}
-                  rating={product.rating}
-                  id={product.id}
-                  // handleAddCard={handleAddCard}
-                  handleAddCard={handleAddCartRef}
-                />
-              </CardProduct>
-            ))}
+            {products.length > 0 &&
+              products.map((product) => (
+                <CardProduct key={product.id}>
+                  <CardProduct.Header image={product.image} alt={product.alt} />
+                  <CardProduct.Body title={product.title}>
+                    {product.description}
+                  </CardProduct.Body>
+                  <CardProduct.Footer
+                    price={product.price}
+                    rating={product.rating.rate}
+                    id={product.id}
+                    handleAddCard={handleAddCard}
+                    // handleAddCard={handleAddCartRef}
+                  />
+                </CardProduct>
+              ))}
           </div>
         </div>
         <div className="w-1/4 text-center">
@@ -139,22 +143,23 @@ function Producs() {
               </tr>
             </thead>
             <tbody>
-              {cartRef.current.map((item) => {
-                // cart.map((item) => {
-                const product = products.find(
-                  (product) => product.id === item.id
-                );
-                return (
-                  <tr key={item.id}>
-                    <td>{product.title}</td>
-                    <td>Rp. {product.price.toLocaleString("id-ID")}</td>
-                    <td>{item.qty}</td>
-                    <td>
-                      {(item.qty * product.price).toLocaleString("id-ID")}
-                    </td>
-                  </tr>
-                );
-              })}
+              {/* {cartRef.current.map((item) => { */}
+              {products.length > 0 &&
+                cart.map((item) => {
+                  const product = products.find(
+                    (product) => product.id === item.id
+                  );
+                  return (
+                    <tr key={item.id}>
+                      <td>{product.title}</td>
+                      <td>Rp. {product.price.toLocaleString("id-ID")}</td>
+                      <td>{item.qty}</td>
+                      <td>
+                        {(item.qty * product.price).toLocaleString("id-ID")}
+                      </td>
+                    </tr>
+                  );
+                })}
               <tr ref={totalPriceRef}>
                 <th colSpan={3} className="font-bold">
                   Total price

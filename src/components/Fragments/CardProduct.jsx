@@ -2,7 +2,13 @@ import React, { Children } from "react";
 import Button from "../Elements/Button";
 const Header = (props) => {
   const { image, alt } = props;
-  return <img className="rounded-t-lg w-64" src={image} alt={alt} />;
+  return (
+    <img
+      className="rounded-t-lg h-64 w-full object-cover"
+      src={image}
+      alt={alt}
+    />
+  );
 };
 const Body = (props) => {
   const { title, children } = props;
@@ -12,7 +18,7 @@ const Body = (props) => {
         {title}
       </h5>
       <p className="text-gray-900 text-sm dark:text-gray-300 text-justify">
-        {children}
+        {String(children).substring(0, 100)}
       </p>
     </div>
   );
@@ -52,7 +58,7 @@ const Footer = (props) => {
           {stars}
         </div>
         <span className="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-800 ms-3">
-          {rating}.0
+          {rating}
         </span>
       </div>
       <div className="flex items-center justify-between">

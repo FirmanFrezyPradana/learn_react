@@ -1,6 +1,6 @@
 import InputForm from "../Elements/Input";
 import Button from "../Elements/Button";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 export const FormLogin = () => {
   const HandleLogin = (event) => {
     event.preventDefault();
@@ -8,6 +8,7 @@ export const FormLogin = () => {
     localStorage.setItem("password", event.target.password.value);
     window.location.href = "/producs";
   };
+
   const emailRef = useRef(null);
   useEffect(() => {
     emailRef.current.focus(); // Fokus pada elemen input
