@@ -5,6 +5,7 @@ import Button from "../components/Elements/Button";
 // import Counter from "./Couter";
 // import { json } from "react-router-dom";
 import getProducts from "../services/product.services";
+import { getUsername } from "../services/auth.services";
 // const products = [
 //   {
 //     id: 1,
@@ -42,8 +43,18 @@ function Producs() {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [username, setUsername] = useState([]);
   useEffect(() => {
     setCart(JSON.parse(localStorage.getItem("cart")) || []);
+  }, []);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setUsername(getUsername(token));
+    } else {
+      window.location.href = "/";
+    }
   }, []);
 
   useEffect(() => {
@@ -105,7 +116,7 @@ function Producs() {
   return (
     <Fragment>
       <div className="w-full bg-green-500 py-5 justify-end flex text-white items-center px-6 font-bold">
-        {email}
+        {username}
         <Button classname="ml-5 bg-black px-4" onClick={handleLogout}>
           logout
         </Button>
