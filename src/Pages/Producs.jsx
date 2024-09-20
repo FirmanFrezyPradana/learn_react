@@ -6,6 +6,7 @@ import Button from "../components/Elements/Button";
 // import { json } from "react-router-dom";
 import getProducts from "../services/product.services";
 import { getUsername } from "../services/auth.services";
+import { useLogin } from "../hooks/useLogin";
 // const products = [
 //   {
 //     id: 1,
@@ -43,18 +44,25 @@ function Producs() {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [username, setUsername] = useState([]);
+  // const [username, setUsername] = useState([]);
+  const username = useLogin();
   useEffect(() => {
     setCart(JSON.parse(localStorage.getItem("cart")) || []);
   }, []);
+// source code dipindah ke useLogin
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   if (token) {
+  //     setUsername(getUsername(token));
+  //   } else {
+  //     window.location.href = "/";
+  //   }
+  // }, []);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setUsername(getUsername(token));
-    } else {
-      window.location.href = "/";
-    }
+    getProducts((data) => {
+      setProducts(data);
+    });
   }, []);
 
   useEffect(() => {
@@ -69,11 +77,6 @@ function Producs() {
     }
   }, [cart, products]);
 
-  useEffect(() => {
-    getProducts((data) => {
-      setProducts(data);
-    });
-  }, []);
   const handleLogout = () => {
     localStorage.removeItem("email");
     localStorage.removeItem("password");

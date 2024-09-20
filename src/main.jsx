@@ -6,6 +6,7 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./Pages/404.jsx";
 import Producs from "./Pages/Producs.jsx";
+import Profile from "./Pages/Profile.jsx";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,11 @@ const router = createBrowserRouter([
   {
     path: "/producs",
     element: <Producs />,
+  }
+  ,
+  {
+    path:"/profile",
+    element:<Profile/>
   }
 ]);
 createRoot(document.getElementById("root")).render(
