@@ -7,12 +7,13 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./Pages/404.jsx";
 import Producs from "./Pages/Producs.jsx";
 import Profile from "./Pages/Profile.jsx";
+import { ProductDetail } from "./Pages/ProductDetail.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    errorElement:<ErrorPage/>
+    errorElement: <ErrorPage />
   },
   {
     path: "/register",
@@ -24,8 +25,12 @@ const router = createBrowserRouter([
   }
   ,
   {
-    path:"/profile",
-    element:<Profile/>
+    path: "/profile",
+    element: <Profile />
+  },
+  {
+    path: "/producs/:id",
+    element: <ProductDetail />
   }
 ]);
 createRoot(document.getElementById("root")).render(

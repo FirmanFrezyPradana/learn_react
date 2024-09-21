@@ -4,7 +4,7 @@ import { CardProduct } from "../components/Fragments/CardProduct";
 import Button from "../components/Elements/Button";
 // import Counter from "./Couter";
 // import { json } from "react-router-dom";
-import getProducts from "../services/product.services";
+import { getProducts } from "../services/product.services";
 import { getUsername } from "../services/auth.services";
 import { useLogin } from "../hooks/useLogin";
 // const products = [
@@ -49,16 +49,6 @@ function Producs() {
   useEffect(() => {
     setCart(JSON.parse(localStorage.getItem("cart")) || []);
   }, []);
-// source code dipindah ke useLogin
-  // useEffect(() => {
-  //   const token = localStorage.getItem("token");
-  //   if (token) {
-  //     setUsername(getUsername(token));
-  //   } else {
-  //     window.location.href = "/";
-  //   }
-  // }, []);
-
   useEffect(() => {
     getProducts((data) => {
       setProducts(data);
@@ -130,7 +120,7 @@ function Producs() {
             {products.length > 0 &&
               products.map((product) => (
                 <CardProduct key={product.id}>
-                  <CardProduct.Header image={product.image} alt={product.alt} />
+                  <CardProduct.Header image={product.image} alt={product.alt} id={product.id} />
                   <CardProduct.Body title={product.title}>
                     {product.description}
                   </CardProduct.Body>
@@ -139,7 +129,7 @@ function Producs() {
                     rating={product.rating.rate}
                     id={product.id}
                     handleAddCard={handleAddCard}
-                    // handleAddCard={handleAddCartRef}
+                  // handleAddCard={handleAddCartRef}
                   />
                 </CardProduct>
               ))}

@@ -1,13 +1,16 @@
 import React, { Children } from "react";
 import Button from "../Elements/Button";
+import { Link } from "react-router-dom";
 const Header = (props) => {
-  const { image, alt } = props;
+  const { image, alt, id } = props;
   return (
-    <img
-      className="rounded-t-lg h-64 w-full object-cover"
-      src={image}
-      alt={alt}
-    />
+    <Link to={`/producs/${id}`} >
+      <img
+        className="rounded-t-lg h-64 w-full object-cover"
+        src={image}
+        alt={alt}
+      />
+    </Link>
   );
 };
 const Body = (props) => {
