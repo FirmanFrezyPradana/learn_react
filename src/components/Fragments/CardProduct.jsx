@@ -1,6 +1,8 @@
 import React, { Children } from "react";
 import Button from "../Elements/Button";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../redux/slices/cardSlice";
 const Header = (props) => {
   const { image, alt, id } = props;
   return (
@@ -27,7 +29,7 @@ const Body = (props) => {
   );
 };
 const Footer = (props) => {
-  const { price, rating, handleAddCard, id } = props;
+  const { price, rating, id } = props;
   // console.log(id);
   const stars = Array.from({ length: 5 }, (_, index) => {
     return index < rating ? (
@@ -54,6 +56,7 @@ const Footer = (props) => {
       </svg>
     );
   });
+  const dispatch = useDispatch()
   return (
     <div className="px-5 pb-2">
       <div className="flex items-center mt-2.5 mb-5 jus">
@@ -69,7 +72,7 @@ const Footer = (props) => {
           Rp. {price.toLocaleString("id-ID")}
         </span>
         <Button
-          onClick={() => handleAddCard(id)}
+          onClick={() => dispatch(addToCart({ id, qty: 1 }))}
           classname="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300  text-sm px-5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
         >
           Cart
