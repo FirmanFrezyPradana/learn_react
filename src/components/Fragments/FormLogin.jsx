@@ -1,7 +1,6 @@
 import InputForm from "../Elements/Input";
 import Button from "../Elements/Button";
 import { useEffect, useRef, useState } from "react";
-// jika dalam sebuah file terdiri dari 2 export seperti auth service maka untuk pembuka wajib menggunakan { namaFunction}
 import { Login } from "../../services/auth.services";
 export const FormLogin = () => {
   const [loginFiled, setLoginFailed] = useState([]);
