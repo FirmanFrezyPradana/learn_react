@@ -1,11 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
+import { useTotalPrice, useTotalPriceDispatch } from '../../context/TotalPriceContext';
 
 export const TableCart = (props) => {
     const { products } = props;
     const cart = useSelector((state) => state.cart.data)
-    const [totalPrice, setTotalPrice] = useState(0)
     const totalPriceRef = useRef(null);
+    const dispatch = useTotalPriceDispatch();
+    const { total } = useTotalPrice();
+
+    console.log(total);
 
     useEffect(() => {
         if (products.length > 0 && cart.length > 0) {
@@ -13,19 +17,23 @@ export const TableCart = (props) => {
                 const product = products.find((product) => product.id === item.id);
                 return acc + product.price * item.qty;
             }, 0);
-            setTotalPrice(sum);
+            dispatch({
+                type: "UPDATE",
+                payload: {
+                    total: sum,
+                }
+            })
             localStorage.setItem("cart", JSON.stringify(cart));
-        } else {
         }
     }, [cart, products]);
 
     useEffect(() => {
         if (cart.length > 0) {
-          totalPriceRef.current.style.display = "table-row";
+            totalPriceRef.current.style.display = "table-row";
         } else {
-          totalPriceRef.current.style.display = "none";
+            totalPriceRef.current.style.display = "none";
         }
-      }, [cart]);
+    }, [cart]);
     return (
         <table className="text-left  table-auto border-separate border-spacing-5">
             <thead>
@@ -60,7 +68,7 @@ export const TableCart = (props) => {
                     </th>
                     <th className="font-bold">
                         Rp
-                        {totalPrice.toLocaleString("id-ID")}
+                        {total.toLocaleString("id-ID")}
                     </th>
                 </tr>
             </tbody>
